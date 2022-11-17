@@ -1,15 +1,21 @@
 import eel
-from sentiment import inputkeyword
+import sentiment 
+#from sentiment import inputkeyword
 # name of folder where the html, css, js, image files are located
 eel.init('templates')
 
+print("Start Server")
+
 @eel.expose
 def demo(x):
+    sentiment.inputkeyword("apec", 10, 3)
+    print("Call Sentimental Analysis")
     return x**2
 def input(keyword, noOfTweet, select):
-    inputkeyword(keyword, noOfTweet, select)
+    sentiment.inputkeyword(keyword, noOfTweet, select)
     return
 
+print("Run Server Successful")
 # 1000 is width of window and 600 is the height
-#,mode='firefox-app'
+#mode='firefox-app'
 eel.start('index.html',mode='firefox-app',port=8080, size=(1000, 600))
