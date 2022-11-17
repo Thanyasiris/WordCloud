@@ -18,6 +18,9 @@ from langdetect import detect
 from nltk.stem import SnowballStemmer
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from sklearn.feature_extraction.text import CountVectorizer
+import os
+from PIL import Image
+
 # import nltk
 # nltk.download('vader_lexicon')
 
@@ -28,20 +31,18 @@ CONSUMER_KEY = 'LTR1KSkdZH8zEHRWxbT2enRki'
 CONSUMER_SECRET = 'qDkfJOBC1mfqW3i8CcLy6a8dLenarNO1iRC5cVIaKPy1kDjsd0'
 
 # Setup tweepy to authenticate with Twitter credentials:
-
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
 
 # Create the api to connect to twitter with your creadentials
 api = tweepy.API(auth)
 
-#percentage
+#Convert decimal into percentage
 def percentage(part,whole):
     return 100 * float(part)/float(whole)
 
+#Sentimental Analysis 
 def inputkeyword(keyword, noOfTweet, select) :
-   #keyword = input("Please enter keyword or hashtag to search: ")
-   #noOfTweet = int(input ("Please enter how many tweets to analyze: "))
    #input
    tweets = tweepy.Cursor(api.search_tweets, q=keyword).items(noOfTweet)
    positive = 0
@@ -53,7 +54,7 @@ def inputkeyword(keyword, noOfTweet, select) :
    negative_list = []
    positive_list = []
 
-   #for loop
+   #for loop to query data 
    for tweet in tweets:
       #print(tweet.text)
       tweet_list.append(tweet.text)
@@ -75,7 +76,7 @@ def inputkeyword(keyword, noOfTweet, select) :
          neutral_list.append(tweet.text)
          neutral += 1
 
-   #out of for loop
+   #out of for loop : convert decimal into percentage
    positive = percentage(positive, noOfTweet)
    negative = percentage(negative, noOfTweet)
    neutral = percentage(neutral, noOfTweet)
@@ -132,14 +133,16 @@ def inputkeyword(keyword, noOfTweet, select) :
    tw_list_positive = tw_list[tw_list["sentiment"]=="positive"]
    tw_list_neutral = tw_list[tw_list["sentiment"]=="neutral"]
 
+   #count value 
    def count_values_in_column(data,feature):
       total=data.loc[:,feature].value_counts(dropna=False)
       percentage=round(data.loc[:,feature].value_counts(dropna=False,normalize=True)*100,2)
       return pd.concat([total,percentage],axis=1,keys=['Total','Percentage'])
+
    #Count_values for sentiment
    count_values_in_column(tw_list,"sentiment")
 
-   #Function to Create Wordcloud -all
+   #Function to Create Wordcloud for all tweet
    def create_wordcloud(text):
       mask = np.array(Image.open("mask/bird.png"))
       stopwords = set(STOPWORDS)
@@ -148,9 +151,8 @@ def inputkeyword(keyword, noOfTweet, select) :
       wc.to_file("result/wc-all.png")
       print("Word Cloud Saved Successfully")
       path="result/wc-all.png"
-      #display(Image.open(path))
 
-   #Function Name -Pos
+   #Function to Create Wordcloud for all Positive tweet
    def create_wordcloud_pos(text):
       mask = np.array(Image.open("mask/bird.png"))
       stopwords = set(STOPWORDS)
@@ -160,7 +162,7 @@ def inputkeyword(keyword, noOfTweet, select) :
       print("Word Cloud Saved Successfully")
       path="result/wc-pos.png"
 
-   #Function Name -Neg
+   #Function to Create Wordcloud for all Negative tweet
    def create_wordcloud_neg(text):
       mask = np.array(Image.open("mask/bird.png"))
       stopwords = set(STOPWORDS)
@@ -170,7 +172,7 @@ def inputkeyword(keyword, noOfTweet, select) :
       print("Word Cloud Saved Successfully")
       path="result/wc-neg.png"
 
-   #Function Name -Neu
+    #Function to Create Wordcloud for all Neutual tweet
    def create_wordcloud_neu(text):
       mask = np.array(Image.open("mask/bird.png"))
       stopwords = set(STOPWORDS)
@@ -180,8 +182,6 @@ def inputkeyword(keyword, noOfTweet, select) :
       print("Word Cloud Saved Successfully")
       path="result/wc-neu.png"
 
-   # select sentiment
-   #select = int(input("Please enter 1 Positive | 2 Negative | 3 Neutral | 4 All : "))
    #Creating wordcloud
 
    #Creating wordcloud for positive sentiment
@@ -206,7 +206,9 @@ def inputkeyword(keyword, noOfTweet, select) :
    round(pd.DataFrame(tw_list.groupby("sentiment").text_len.mean()),2)
    return 
 
+#input from user 
 keyword = input("Please enter keyword or hashtag to search: ")
 noOfTweet = int(input ("Please enter how many tweets to analyze: "))
 select = int(input("Please enter 1 Positive | 2 Negative | 3 Neutral | 4 All : "))
 inputkeyword(keyword, noOfTweet, select) 
+
