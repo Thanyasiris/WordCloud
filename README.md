@@ -25,6 +25,11 @@ import nltk to avoid error then run it and remove it later
 import nltk
 nltk.download('vader_lexicon')
 
+## Run
+```
+python main.py
+```
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
