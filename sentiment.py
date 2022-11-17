@@ -150,9 +150,9 @@ def inputkeyword(keyword, noOfTweet, select) :
       stopwords = set(STOPWORDS)
       wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
       wc.generate(str(text))
-      wc.to_file("result/wc-all.png")
+      wc.to_file("templates/result/wc-all.png")
       print("Word Cloud Saved Successfully")
-      path="result/wc-all.png"
+      path="templates/result/wc-all.png"
 
    #Function to Create Wordcloud for all Positive tweet
    def create_wordcloud_pos(text):
@@ -160,9 +160,9 @@ def inputkeyword(keyword, noOfTweet, select) :
       stopwords = set(STOPWORDS)
       wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
       wc.generate(str(text))
-      wc.to_file("result/wc-pos.png")
+      wc.to_file("templates/result/wc-pos.png")
       print("Word Cloud Saved Successfully")
-      path="result/wc-pos.png"
+      path="templates/result/wc-pos.png"
 
    #Function to Create Wordcloud for all Negative tweet
    def create_wordcloud_neg(text):
@@ -170,9 +170,9 @@ def inputkeyword(keyword, noOfTweet, select) :
       stopwords = set(STOPWORDS)
       wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
       wc.generate(str(text))
-      wc.to_file("result/wc-neg.png")
+      wc.to_file("templates/result/wc-neg.png")
       print("Word Cloud Saved Successfully")
-      path="result/wc-neg.png"
+      path="templates/result/wc-neg.png"
 
     #Function to Create Wordcloud for all Neutual tweet
    def create_wordcloud_neu(text):
@@ -180,9 +180,9 @@ def inputkeyword(keyword, noOfTweet, select) :
       stopwords = set(STOPWORDS)
       wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
       wc.generate(str(text))
-      wc.to_file("result/wc-neu.png")
+      wc.to_file("templates/result/wc-neu.png")
       print("Word Cloud Saved Successfully")
-      path="result/wc-neu.png"
+      path="templates/result/wc-neu.png"
 
    #Creating wordcloud
 
