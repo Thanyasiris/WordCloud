@@ -33,7 +33,7 @@ python -c "import nltk; nltk.download('vader_lexicon')"
 ```
 
 ## Require
-- .env ( Variables that contains the user credentials to access Twitter API )
+- `.env` ( Variables that contains the user credentials to access Twitter API )
 
 ## Run UI
 ```
