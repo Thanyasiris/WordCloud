@@ -22,9 +22,8 @@ def say_hello_py(x):
     print('Hello from %s' % x)
 
 say_hello_py('Python World!')
-eel.say_hello_js('Python World!')   # Call a Javascript function
 
 print("Run Server Successful")
 # 1000 is width of window and 600 is the height
 #mode='firefox-app'
-eel.start('index.html', size=(1000, 600))
+eel.start('index.html', mode='chrome-app', size=(1000, 600))
