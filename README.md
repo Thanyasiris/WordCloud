@@ -30,7 +30,7 @@ nltk.download('vader_lexicon')
 python main.py
 ```
 
-## Run phone ver.
+## Run Select Sentiment ver.
 ```
 python sentiment.py
 ```
