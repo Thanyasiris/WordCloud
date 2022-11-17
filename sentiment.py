@@ -165,7 +165,7 @@ count_values_in_column(tw_list,"sentiment")
 
 #Function to Create Wordcloud -all
 def create_wordcloud(text):
- mask = np.array(Image.open("sentimentTweets/bird.png"))
+ mask = np.array(Image.open("World/mask/bird.png"))
  stopwords = set(STOPWORDS)
  wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
  wc.generate(str(text))
@@ -176,33 +176,33 @@ def create_wordcloud(text):
 
 #Function Name -Pos
 def create_wordcloud_pos(text):
- mask = np.array(Image.open("sentimentTweets/bird.png"))
+ mask = np.array(Image.open("WordCloud/bird.png"))
  stopwords = set(STOPWORDS)
  wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
  wc.generate(str(text))
- wc.to_file("sentimentTweets/wc-pos.png")
+ wc.to_file("WordCloud/wc-pos.png")
  print("Word Cloud Saved Successfully")
- path="sentimentTweets/wc-pos.png"
+ path="WordCloud/wc-pos.png"
 
 #Function Name -Neg
 def create_wordcloud_neg(text):
- mask = np.array(Image.open("sentimentTweets/bird.png"))
+ mask = np.array(Image.open("WordCloud/bird.png"))
  stopwords = set(STOPWORDS)
  wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
  wc.generate(str(text))
- wc.to_file("sentimentTweets/wc-neg.png")
+ wc.to_file("WordCloud/wc-neg.png")
  print("Word Cloud Saved Successfully")
- path="sentimentTweets/wc-neg.png"
+ path="WordCloud/wc-neg.png"
 
  #Function Name -Neu
 def create_wordcloud_neu(text):
- mask = np.array(Image.open("sentimentTweets/bird.png"))
+ mask = np.array(Image.open("WordCloud/bird.png"))
  stopwords = set(STOPWORDS)
  wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
  wc.generate(str(text))
- wc.to_file("sentimentTweets/wc-neu.png")
+ wc.to_file("WordCloud/wc-neu.png")
  print("Word Cloud Saved Successfully")
- path="sentimentTweets/wc-neu.png"
+ path="WordCloud/wc-neu.png"
 
 # select sentiment
 select = int(input("Please enter 1 Positive | 2 Negative | 3 Neutral | 4 All : "))
