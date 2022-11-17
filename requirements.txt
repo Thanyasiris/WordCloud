@@ -1,0 +1,8 @@
+textblob
+matplotlib
+pandas
+wordcloud
+langdetect
+pycountry
+sklearn
+scikit-learn

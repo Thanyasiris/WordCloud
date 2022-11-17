@@ -1,0 +1,19 @@
+.body {
+    background: rgb(214, 45, 45)
+}
+
+#a1 {
+    color: blue;
+    /* font-family: verdana; */
+    font-size: 80px;
+}
+
+h3 {
+    color: rgb(0, 0, 0);
+    /* font-family: courier; */
+    font-size: 160%;
+}
+
+center {
+    margin: auto auto;
+}

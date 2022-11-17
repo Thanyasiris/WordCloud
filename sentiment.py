@@ -18,9 +18,6 @@ from langdetect import detect
 from nltk.stem import SnowballStemmer
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from sklearn.feature_extraction.text import CountVectorizer
-import os
-from PIL import Image
-
 # import nltk
 # nltk.download('vader_lexicon')
 
@@ -211,4 +208,3 @@ keyword = input("Please enter keyword or hashtag to search: ")
 noOfTweet = int(input ("Please enter how many tweets to analyze: "))
 select = int(input("Please enter 1 Positive | 2 Negative | 3 Neutral | 4 All : "))
 inputkeyword(keyword, noOfTweet, select) 
-
