@@ -1,3 +1,4 @@
+eel
 textblob
 matplotlib
 pandas
@@ -6,3 +7,4 @@ langdetect
 pycountry
 sklearn
 scikit-learn
+tweepy

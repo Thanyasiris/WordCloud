@@ -4,14 +4,14 @@ WordCloud is a Fianal Project in Big Data Subject, Computer Science Year 3, KMIT
 
 ## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install all
 
-ui
+```bash
+pip install -r requirements.txt
+```
+or
 ```bash
 pip install Eel
-```
-
-```bash
 pip install textblob
 pip install matplotlib
 pip install pandas
@@ -20,12 +20,18 @@ pip install langdetect
 pip install pycountry
 pip install sklearn
 pip install scikit-learn
+pip install tweepy
 ```
-import nltk to avoid error then run it and remove it later
+if cannot install try to use [Anaconda Prompt](https://docs.conda.io/projects/conda/en/latest/user-guide/install/download.html)
+
+### import nltk to avoid error then run it and remove it later
 import nltk
 nltk.download('vader_lexicon')
+```bash
+python -c "import nltk; nltk.download('vader_lexicon')"
+```
 
-## Run
+## Run UI
 ```
 python main.py
 ```
@@ -33,11 +39,6 @@ python main.py
 ## Run Select Sentiment ver.
 ```
 python sentiment.py
-```
-
-## Run pip with requirements (optional).
-```
-pip install -r requirements.txt
 ```
 
 ## License

@@ -5,11 +5,35 @@
     <title>Wordcloud Twitter</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script type="text/javascript" src="/eel.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+    <!-- <script type="text/javascript">
+        var myVar="hello";
+        function exampleFunction() { alert('You triggered an alert!');}
+        function compute() {
+            //var data = document.getElementById("data").value
+            //eel.demo(data)(setValue) // call the demo function which we have created in the main.py file
+            console.log("js hey");
+            alert('You triggered an alert!');
+            var keyword="apec";
+            var noOfTweet=10;
+            var select=1;    
+            eel.input(keyword, noOfTweet, select);
+            alert('You triggered an alert!2');
+        }
+        eel.expose(say_hello_js);               // Expose this function to Python
+        function say_hello_js(x) {
+            console.log("Hello from " + x);
+        }
+        
+        say_hello_js("Javascript World!");
+        eel.say_hello_py("Javascript World!");  // Call a Python function
+    </script> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
@@ -21,14 +45,14 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">Wordcloud Twitter</a>
-
+            </div>
+        </div>
     </nav>
     <div class="container">
         <h3 id="a1">Inverted Navbar</h3>
         <p>An inverted navbar is black instead of gray.</p>
-
-
-        <form action="/action_page.php">
+        <button class="btn btn btn-primary" type="button" onclick="compute()">lll</button>
+        <input type = "button" onclick = "compute()" value = "Click Me">
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search" name="search">
                 <div class="input-group-btn">
@@ -37,7 +61,6 @@
 
 
             </div><br><img src="fff.png" class="mx-auto d-block" alt="Cinque Terre" width="304" height="236">
-        </form>
         <br>
         <div class="container">
             

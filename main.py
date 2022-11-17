@@ -11,11 +11,20 @@ def demo(x):
     sentiment.inputkeyword("apec", 10, 3)
     print("Call Sentimental Analysis")
     return x**2
+
+@eel.expose
 def input(keyword, noOfTweet, select):
     sentiment.inputkeyword(keyword, noOfTweet, select)
     return
 
+@eel.expose
+def say_hello_py(x):
+    print('Hello from %s' % x)
+
+say_hello_py('Python World!')
+eel.say_hello_js('Python World!')   # Call a Javascript function
+
 print("Run Server Successful")
 # 1000 is width of window and 600 is the height
 #mode='firefox-app'
-eel.start('index.html',mode='firefox-app',port=8080, size=(1000, 600))
+eel.start('index.html', size=(1000, 600))
