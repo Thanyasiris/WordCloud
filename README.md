@@ -35,6 +35,11 @@ python main.py
 python sentiment.py
 ```
 
+## Run pip with requirements (optional).
+```
+pip install -r requirements.txt
+```
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
