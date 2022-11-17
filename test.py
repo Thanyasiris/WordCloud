@@ -18,14 +18,18 @@ from langdetect import detect
 from nltk.stem import SnowballStemmer
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from sklearn.feature_extraction.text import CountVectorizer
+from dotenv import load_dotenv
 # import nltk
 # nltk.download('vader_lexicon')
 
+# import access Twitter API from .env
+load_dotenv()
+
 # Variables that contains the user credentials to access Twitter API 
-ACCESS_TOKEN = '1220392858336677888-9XQlXaTPp6JZQU1diIOu3iG5emKUy8'
-ACCESS_SECRET = 'GQzCsbr8XPDLKwWkPVx9YYaM6euUUFdnv9RX8PXyXZUC1'
-CONSUMER_KEY = 'LTR1KSkdZH8zEHRWxbT2enRki'
-CONSUMER_SECRET = 'qDkfJOBC1mfqW3i8CcLy6a8dLenarNO1iRC5cVIaKPy1kDjsd0'
+ACCESS_TOKEN = os.getenv('ACCESS_TOKEN')
+ACCESS_SECRET = os.getenv('ACCESS_SECRET')
+CONSUMER_KEY = os.getenv('CONSUMER_KEY')
+CONSUMER_SECRET = os.getenv('CONSUMER_SECRET')
 
 # Setup tweepy to authenticate with Twitter credentials:
 

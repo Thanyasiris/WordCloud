@@ -8,3 +8,4 @@ pycountry
 sklearn
 scikit-learn
 tweepy
+python-dotenv

@@ -21,6 +21,7 @@ pip install pycountry
 pip install sklearn
 pip install scikit-learn
 pip install tweepy
+pip install python-dotenv
 ```
 if cannot install try to use [Anaconda Prompt](https://docs.conda.io/projects/conda/en/latest/user-guide/install/download.html)
 
@@ -30,6 +31,9 @@ nltk.download('vader_lexicon')
 ```bash
 python -c "import nltk; nltk.download('vader_lexicon')"
 ```
+
+## Require
+- .env ( Variables that contains the user credentials to access Twitter API )
 
 ## Run UI
 ```
