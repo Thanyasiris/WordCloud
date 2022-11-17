@@ -30,6 +30,11 @@ nltk.download('vader_lexicon')
 python main.py
 ```
 
+## Run phone ver.
+```
+python sentiment.py
+```
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
