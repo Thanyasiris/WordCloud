@@ -1,11 +1,14 @@
 import eel
-
+from sentiment import inputkeyword
 # name of folder where the html, css, js, image files are located
 eel.init('templates')
 
 @eel.expose
 def demo(x):
     return x**2
+def input(keyword, noOfTweet, select):
+    inputkeyword(keyword, noOfTweet, select)
+    return
 
 # 1000 is width of window and 600 is the height
 #,mode='firefox-app'
