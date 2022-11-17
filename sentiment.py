@@ -35,15 +35,14 @@ auth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
 # Create the api to connect to twitter with your creadentials
 api = tweepy.API(auth)
 
+#percentage
 def percentage(part,whole):
     return 100 * float(part)/float(whole)
 
-keyword = input("Please enter keyword or hashtag to search: ")
-noOfTweet = int(input ("Please enter how many tweets to analyze: "))
-def inputkeyword(keyword, noOfTweet) :
-   # keyword = input("Please enter keyword or hashtag to search: ")
-   # noOfTweet = int(input ("Please enter how many tweets to analyze: "))
-
+def inputkeyword(keyword, noOfTweet, select) :
+   #keyword = input("Please enter keyword or hashtag to search: ")
+   #noOfTweet = int(input ("Please enter how many tweets to analyze: "))
+   #input
    tweets = tweepy.Cursor(api.search_tweets, q=keyword).items(noOfTweet)
    positive = 0
    negative = 0
@@ -53,6 +52,8 @@ def inputkeyword(keyword, noOfTweet) :
    neutral_list = []
    negative_list = []
    positive_list = []
+
+   #for loop
    for tweet in tweets:
       #print(tweet.text)
       tweet_list.append(tweet.text)
@@ -73,6 +74,8 @@ def inputkeyword(keyword, noOfTweet) :
       elif pos == neg:
          neutral_list.append(tweet.text)
          neutral += 1
+
+   #out of for loop
    positive = percentage(positive, noOfTweet)
    negative = percentage(negative, noOfTweet)
    neutral = percentage(neutral, noOfTweet)
@@ -133,52 +136,53 @@ def inputkeyword(keyword, noOfTweet) :
       total=data.loc[:,feature].value_counts(dropna=False)
       percentage=round(data.loc[:,feature].value_counts(dropna=False,normalize=True)*100,2)
       return pd.concat([total,percentage],axis=1,keys=['Total','Percentage'])
-      
    #Count_values for sentiment
    count_values_in_column(tw_list,"sentiment")
 
    #Function to Create Wordcloud -all
    def create_wordcloud(text):
-      mask = np.array(Image.open("WordCloud/mask/bird.png"))
+      mask = np.array(Image.open("mask/bird.png"))
       stopwords = set(STOPWORDS)
       wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
       wc.generate(str(text))
-      wc.to_file("WordCloud/result/wc-all.png")
+      wc.to_file("result/wc-all.png")
       print("Word Cloud Saved Successfully")
-      path="WordCloud/result/wc-all.png"
+      path="result/wc-all.png"
+      #display(Image.open(path))
 
    #Function Name -Pos
    def create_wordcloud_pos(text):
-      mask = np.array(Image.open("WordCloud/mask/bird.png"))
+      mask = np.array(Image.open("mask/bird.png"))
       stopwords = set(STOPWORDS)
       wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
       wc.generate(str(text))
-      wc.to_file("WordCloud/result/wc-pos.png")
+      wc.to_file("result/wc-pos.png")
       print("Word Cloud Saved Successfully")
-      path="WordCloud/result/wc-pos.png"
+      path="result/wc-pos.png"
 
    #Function Name -Neg
    def create_wordcloud_neg(text):
-      mask = np.array(Image.open("WordCloud/mask/bird.png"))
+      mask = np.array(Image.open("mask/bird.png"))
       stopwords = set(STOPWORDS)
       wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
       wc.generate(str(text))
-      wc.to_file("WordCloud/result/wc-neg.png")
+      wc.to_file("result/wc-neg.png")
       print("Word Cloud Saved Successfully")
-      path="WordCloud/result/wc-neg.png"
+      path="result/wc-neg.png"
 
    #Function Name -Neu
    def create_wordcloud_neu(text):
-      mask = np.array(Image.open("WordCloud/mask/bird.png"))
+      mask = np.array(Image.open("mask/bird.png"))
       stopwords = set(STOPWORDS)
       wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
       wc.generate(str(text))
-      wc.to_file("WordCloud/result/wc-neu.png")
+      wc.to_file("result/wc-neu.png")
       print("Word Cloud Saved Successfully")
-      path="WordCloud/result/wc-neu.png"
+      path="result/wc-neu.png"
 
    # select sentiment
-   select = int(input("Please enter 1 Positive | 2 Negative | 3 Neutral | 4 All : "))
+   #select = int(input("Please enter 1 Positive | 2 Negative | 3 Neutral | 4 All : "))
+   #Creating wordcloud
 
    #Creating wordcloud for positive sentiment
    if select == 1:
@@ -200,7 +204,9 @@ def inputkeyword(keyword, noOfTweet) :
    tw_list['text_len'] = tw_list['text'].astype(str).apply(len)
    tw_list['text_word_count'] = tw_list['text'].apply(lambda x: len(str(x).split()))
    round(pd.DataFrame(tw_list.groupby("sentiment").text_len.mean()),2)
+   return 
 
-
-
-
+keyword = input("Please enter keyword or hashtag to search: ")
+noOfTweet = int(input ("Please enter how many tweets to analyze: "))
+select = int(input("Please enter 1 Positive | 2 Negative | 3 Neutral | 4 All : "))
+inputkeyword(keyword, noOfTweet, select) 
