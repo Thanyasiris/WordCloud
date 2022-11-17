@@ -4,14 +4,14 @@ WordCloud is a Fianal Project in Big Data Subject, Computer Science Year 3, KMIT
 
 ## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install wordcloud.
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install
 
+ui
 ```bash
 pip install Eel
 ```
 
 ```bash
-installation
 pip install textblob
 pip install matplotlib
 pip install pandas
@@ -20,11 +20,10 @@ pip install langdetect
 pip install pycountry
 pip install sklearn
 pip install scikit-learn
-
+```
 import nltk to avoid error then run it and remove it later
 import nltk
 nltk.download('vader_lexicon')
-```
 
 ## License
 
