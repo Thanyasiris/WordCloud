@@ -18,17 +18,27 @@ from langdetect import detect
 from nltk.stem import SnowballStemmer
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from sklearn.feature_extraction.text import CountVectorizer
-import os
-from PIL import Image
+from dotenv import load_dotenv
+import pymongo
+import argparse
 
 # import nltk
 # nltk.download('vader_lexicon')
 
+# CONNECTING TO LOCAL MONGODB 
+LOCAL_CLIENT = pymongo.MongoClient()
+
+#create a Mongo database called twitter_data
+LOCAL_DB = LOCAL_CLIENT.twitter_data
+
+# import access Twitter API from .env
+load_dotenv()
+
 # Variables that contains the user credentials to access Twitter API 
-ACCESS_TOKEN = '1220392858336677888-9XQlXaTPp6JZQU1diIOu3iG5emKUy8'
-ACCESS_SECRET = 'GQzCsbr8XPDLKwWkPVx9YYaM6euUUFdnv9RX8PXyXZUC1'
-CONSUMER_KEY = 'LTR1KSkdZH8zEHRWxbT2enRki'
-CONSUMER_SECRET = 'qDkfJOBC1mfqW3i8CcLy6a8dLenarNO1iRC5cVIaKPy1kDjsd0'
+ACCESS_TOKEN = os.getenv('ACCESS_TOKEN')
+ACCESS_SECRET = os.getenv('ACCESS_SECRET')
+CONSUMER_KEY = os.getenv('CONSUMER_KEY')
+CONSUMER_SECRET = os.getenv('CONSUMER_SECRET')
 
 # Setup tweepy to authenticate with Twitter credentials:
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
@@ -148,9 +158,9 @@ def inputkeyword(keyword, noOfTweet, select) :
       stopwords = set(STOPWORDS)
       wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
       wc.generate(str(text))
-      wc.to_file("result/wc-all.png")
+      wc.to_file("templates/result/wc-all.png")
       print("Word Cloud Saved Successfully")
-      path="result/wc-all.png"
+      path="templates/result/wc-all.png"
 
    #Function to Create Wordcloud for all Positive tweet
    def create_wordcloud_pos(text):
@@ -158,9 +168,9 @@ def inputkeyword(keyword, noOfTweet, select) :
       stopwords = set(STOPWORDS)
       wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
       wc.generate(str(text))
-      wc.to_file("result/wc-pos.png")
+      wc.to_file("templates/result/wc-pos.png")
       print("Word Cloud Saved Successfully")
-      path="result/wc-pos.png"
+      path="templates/result/wc-pos.png"
 
    #Function to Create Wordcloud for all Negative tweet
    def create_wordcloud_neg(text):
@@ -168,9 +178,9 @@ def inputkeyword(keyword, noOfTweet, select) :
       stopwords = set(STOPWORDS)
       wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
       wc.generate(str(text))
-      wc.to_file("result/wc-neg.png")
+      wc.to_file("templates/result/wc-neg.png")
       print("Word Cloud Saved Successfully")
-      path="result/wc-neg.png"
+      path="templates/result/wc-neg.png"
 
     #Function to Create Wordcloud for all Neutual tweet
    def create_wordcloud_neu(text):
@@ -178,9 +188,9 @@ def inputkeyword(keyword, noOfTweet, select) :
       stopwords = set(STOPWORDS)
       wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
       wc.generate(str(text))
-      wc.to_file("result/wc-neu.png")
+      wc.to_file("templates/result/wc-neu.png")
       print("Word Cloud Saved Successfully")
-      path="result/wc-neu.png"
+      path="templates/result/wc-neu.png"
 
    #Creating wordcloud
 
@@ -210,5 +220,81 @@ def inputkeyword(keyword, noOfTweet, select) :
 keyword = input("Please enter keyword or hashtag to search: ")
 noOfTweet = int(input ("Please enter how many tweets to analyze: "))
 select = int(input("Please enter 1 Positive | 2 Negative | 3 Neutral | 4 All : "))
-inputkeyword(keyword, noOfTweet, select) 
+#inputkeyword(keyword, noOfTweet, select) 
+
+#Load Database
+class LoadDatabase():
+   def __init__(self, batch_size, limit):
+      self.batch_size = batch_size
+      self.buffer = []
+      self.limit = limit
+      self.counter = 0
+
+   def load_tweets(self, tweet):
+      '''
+         The primary method to be used as the callback function on each
+         incoming tweet. Each tweet is appended to an empty list (the "buffer")
+         and as soon as this buffer is full (i.e. has reached the batch size),
+         the tweets are dumped into Mongo DB.
+      '''
+      self.buffer.append(tweet)
+
+      #logic for handling if batch size > limit and if limit % batch_size != 0
+      if self.limit - self.counter < self.batch_size:
+         self.batch_size = self.limit - self.counter
+
+      #main block
+      if len(self.buffer) >= self.batch_size:
+         LOCAL_DB.tweet_dicts.insert_many(self.buffer)
+         print(f"loaded {int(self.counter + self.batch_size)} tweets of\
+         {int(self.limit)}\n")
+         self.buffer = []
+         self.counter += self.batch_size
+
+def populate_database(batch_size, limit, keyword):
+
+   '''
+      The primary function of this script. Instantiates the TwitterStreamer
+      class imported from the twitter_streamer.py script, and replaces the
+      default callback function (print) with the load_tweets method defined
+      in the LoadDatabase() class above.
+   '''
+
+   callback_function = LoadDatabase(batch_size, limit).load_tweets
+
+   twitter_streamer = inputkeyword(keyword, noOfTweet, select) 
+   #twitter_streamer.stream_tweets(limit, callback_function)
+
+
+if __name__ == '__main__':
+   """
+   To view argument parser help in the command line:
+   'python load_database.py -h'
+   """
+   parser = argparse.ArgumentParser(description='Collect tweets and put them\
+   into a database.')
+
+   """
+   parser.add_argument('-k', '--keyword_list',
+                        nargs='+',
+                        help='<Required> Enter any keywords (separated by spaces;\
+                        no punctuation) that should be included in streamed tweets.',
+                        required=True)
+   """
+   parser.add_argument('-b', '--batch_size',
+                        type=int,
+                        default=2,
+                        help='How many tweets do you want to grab at a time?')
+   """
+   parser.add_argument('-n', '--total_number',
+                        type=int,
+                        default=10,
+                        help='How many total tweets do you want to get?')
+
+   args = parser.parse_args()
+   print(f"\nLoading tweets about {args.keyword_list} into database...\
+          \nWait for progress status...\n\n")
+   """
+   args = parser.parse_args()
+   populate_database(args.batch_size, noOfTweet, keyword)
 

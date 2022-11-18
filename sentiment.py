@@ -18,14 +18,19 @@ from langdetect import detect
 from nltk.stem import SnowballStemmer
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from sklearn.feature_extraction.text import CountVectorizer
+from dotenv import load_dotenv
+
 # import nltk
 # nltk.download('vader_lexicon')
 
+# import access Twitter API from .env
+load_dotenv()
+
 # Variables that contains the user credentials to access Twitter API 
-ACCESS_TOKEN = '1220392858336677888-9XQlXaTPp6JZQU1diIOu3iG5emKUy8'
-ACCESS_SECRET = 'GQzCsbr8XPDLKwWkPVx9YYaM6euUUFdnv9RX8PXyXZUC1'
-CONSUMER_KEY = 'LTR1KSkdZH8zEHRWxbT2enRki'
-CONSUMER_SECRET = 'qDkfJOBC1mfqW3i8CcLy6a8dLenarNO1iRC5cVIaKPy1kDjsd0'
+ACCESS_TOKEN = os.getenv('ACCESS_TOKEN')
+ACCESS_SECRET = os.getenv('ACCESS_SECRET')
+CONSUMER_KEY = os.getenv('CONSUMER_KEY')
+CONSUMER_SECRET = os.getenv('CONSUMER_SECRET')
 
 # Setup tweepy to authenticate with Twitter credentials:
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
@@ -145,9 +150,9 @@ def inputkeyword(keyword, noOfTweet, select) :
       stopwords = set(STOPWORDS)
       wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
       wc.generate(str(text))
-      wc.to_file("result/wc-all.png")
+      wc.to_file("templates/result/wc-all.png")
       print("Word Cloud Saved Successfully")
-      path="result/wc-all.png"
+      path="templates/result/wc-all.png"
 
    #Function to Create Wordcloud for all Positive tweet
    def create_wordcloud_pos(text):
@@ -155,9 +160,9 @@ def inputkeyword(keyword, noOfTweet, select) :
       stopwords = set(STOPWORDS)
       wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
       wc.generate(str(text))
-      wc.to_file("result/wc-pos.png")
+      wc.to_file("templates/result/wc-pos.png")
       print("Word Cloud Saved Successfully")
-      path="result/wc-pos.png"
+      path="templates/result/wc-pos.png"
 
    #Function to Create Wordcloud for all Negative tweet
    def create_wordcloud_neg(text):
@@ -165,9 +170,9 @@ def inputkeyword(keyword, noOfTweet, select) :
       stopwords = set(STOPWORDS)
       wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
       wc.generate(str(text))
-      wc.to_file("result/wc-neg.png")
+      wc.to_file("templates/result/wc-neg.png")
       print("Word Cloud Saved Successfully")
-      path="result/wc-neg.png"
+      path="templates/result/wc-neg.png"
 
     #Function to Create Wordcloud for all Neutual tweet
    def create_wordcloud_neu(text):
@@ -175,9 +180,9 @@ def inputkeyword(keyword, noOfTweet, select) :
       stopwords = set(STOPWORDS)
       wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
       wc.generate(str(text))
-      wc.to_file("result/wc-neu.png")
+      wc.to_file("templates/result/wc-neu.png")
       print("Word Cloud Saved Successfully")
-      path="result/wc-neu.png"
+      path="templates/result/wc-neu.png"
 
    #Creating wordcloud
 
