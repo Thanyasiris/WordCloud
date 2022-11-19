@@ -38,3 +38,4 @@ function updateImg() {
 
 //     edit_save.src = inputs[select];                              
 // }
+
