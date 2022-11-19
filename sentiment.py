@@ -19,9 +19,23 @@ from nltk.stem import SnowballStemmer
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from sklearn.feature_extraction.text import CountVectorizer
 from dotenv import load_dotenv
+from pymongo import MongoClient
 
 # import nltk
 # nltk.download('vader_lexicon')
+
+#establing connection
+try:
+    connect = MongoClient()
+    print("Connected successfully!!!")
+except:
+    print("Could not connect to MongoDB")
+
+# connecting or switching to the database
+db = connect.wordCloud
+
+# creating or switching to demoCollection
+collection = db.wordCloudCollection
 
 # import access Twitter API from .env
 load_dotenv()
@@ -87,6 +101,17 @@ def inputkeyword(keyword, noOfTweet, select) :
    negative = format(negative, '.1f')
    neutral = format(neutral, '.1f')
    print(tweet._json)
+
+   #query previous data
+   exist_data = collection.find()
+
+   #delete previous data in the storage 
+   if exist_data != None :
+      print("delete prvious data successfull")
+      collection.delete_many({})
+   
+   # Inserting data to local storage one by one
+   collection.insert_one(tweet._json)
 
    #Number of Tweets (Total, Positive, Negative, Neutral)
    tweet_list = pd.DataFrame(tweet_list)
@@ -213,3 +238,4 @@ def inputkeyword(keyword, noOfTweet, select) :
 # noOfTweet = int(input ("Please enter how many tweets to analyze: "))
 # select = int(input("Please enter 1 Positive | 2 Negative | 3 Neutral | 4 All : "))
 # inputkeyword(keyword, noOfTweet, select) 
+

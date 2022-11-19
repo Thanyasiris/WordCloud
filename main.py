@@ -18,4 +18,4 @@ print("Run Server Successful")
 # mode='firefox-app'
 # port=8000
 # default path http://localhost:8000/index.html
-eel.start('index.html', size=(1000, 600))
+eel.start('index.html', mode='firefox-app', size=(1000, 600))

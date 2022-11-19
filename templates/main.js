@@ -1,5 +1,5 @@
 let keyword = "Twitter";
-const noOfTweet = 100;
+const noOfTweet = 50;
 
 //search
 function compute(select) {
