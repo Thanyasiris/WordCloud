@@ -151,8 +151,8 @@ def inputkeyword(keyword, noOfTweet, select) :
       wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
       wc.generate(str(text))
       wc.to_file("templates/result/wc-all.png")
+      wc.to_file("templates/result/wc.png")
       print("Word Cloud Saved Successfully")
-      path="templates/result/wc-all.png"
 
    #Function to Create Wordcloud for all Positive tweet
    def create_wordcloud_pos(text):
@@ -161,8 +161,8 @@ def inputkeyword(keyword, noOfTweet, select) :
       wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
       wc.generate(str(text))
       wc.to_file("templates/result/wc-pos.png")
+      wc.to_file("templates/result/wc.png")
       print("Word Cloud Saved Successfully")
-      path="templates/result/wc-pos.png"
 
    #Function to Create Wordcloud for all Negative tweet
    def create_wordcloud_neg(text):
@@ -171,8 +171,8 @@ def inputkeyword(keyword, noOfTweet, select) :
       wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
       wc.generate(str(text))
       wc.to_file("templates/result/wc-neg.png")
+      wc.to_file("templates/result/wc.png")
       print("Word Cloud Saved Successfully")
-      path="templates/result/wc-neg.png"
 
     #Function to Create Wordcloud for all Neutual tweet
    def create_wordcloud_neu(text):
@@ -181,8 +181,8 @@ def inputkeyword(keyword, noOfTweet, select) :
       wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
       wc.generate(str(text))
       wc.to_file("templates/result/wc-neu.png")
+      wc.to_file("templates/result/wc.png")
       print("Word Cloud Saved Successfully")
-      path="templates/result/wc-neu.png"
 
    #Creating wordcloud
 
@@ -209,7 +209,7 @@ def inputkeyword(keyword, noOfTweet, select) :
    return 
 
 #input from user 
-keyword = input("Please enter keyword or hashtag to search: ")
-noOfTweet = int(input ("Please enter how many tweets to analyze: "))
-select = int(input("Please enter 1 Positive | 2 Negative | 3 Neutral | 4 All : "))
-inputkeyword(keyword, noOfTweet, select) 
+# keyword = input("Please enter keyword or hashtag to search: ")
+# noOfTweet = int(input ("Please enter how many tweets to analyze: "))
+# select = int(input("Please enter 1 Positive | 2 Negative | 3 Neutral | 4 All : "))
+# inputkeyword(keyword, noOfTweet, select) 

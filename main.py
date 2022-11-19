@@ -8,6 +8,7 @@ print("Start Server")
 
 @eel.expose
 def input(keyword, noOfTweet, select):
+    print("keyword : "+keyword)
     sentiment.inputkeyword(keyword, noOfTweet, select)
     return
 
