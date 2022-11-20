@@ -209,7 +209,7 @@ def inputkeyword(keyword, noOfTweet, select) :
    return 
 
 #input from user 
-keyword = input("Please enter keyword or hashtag to search: ")
-noOfTweet = int(input ("Please enter how many tweets to analyze: "))
-select = int(input("Please enter 1 Positive | 2 Negative | 3 Neutral | 4 All : "))
-inputkeyword(keyword, noOfTweet, select) 
+# keyword = input("Please enter keyword or hashtag to search: ")
+# noOfTweet = int(input ("Please enter how many tweets to analyze: "))
+# select = int(input("Please enter 1 Positive | 2 Negative | 3 Neutral | 4 All : "))
+# inputkeyword(keyword, noOfTweet, select) 

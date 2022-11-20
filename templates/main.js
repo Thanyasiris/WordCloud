@@ -1,4 +1,4 @@
-let keyword = "blackpink";
+let keyword = "twitter";
 // let edit_save = document.getElementById("img");
 // edit_save.src = "./result/wc-all.png"; 
 
