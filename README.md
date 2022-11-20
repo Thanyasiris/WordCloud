@@ -22,6 +22,7 @@ pip install sklearn
 pip install scikit-learn
 pip install tweepy
 pip install python-dotenv
+pip install pymongo
 ```
 if cannot install try to use [Anaconda Prompt](https://docs.conda.io/projects/conda/en/latest/user-guide/install/download.html)
 

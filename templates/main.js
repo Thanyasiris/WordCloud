@@ -1,21 +1,37 @@
-let keyword = "blackpink";
-// let edit_save = document.getElementById("img");
-// edit_save.src = "./result/wc-all.png"; 
+let keyword = "Twitter";
+const noOfTweet = 50;
 
 //search
 function compute(select) {
     keyword = document.getElementById("simple-search").value;
-    var noOfTweet=10;
+    document.cookie = "keyword = "+keyword;
     eel.input(keyword, noOfTweet, select);
-    // edit(select);
     location.reload();
 }
 
+//getCookie
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
 //select sentiment
 function computeButton(select) {
-    var noOfTweet=10;
+    if (getCookie("keyword") != null) {
+         keyword = getCookie("keyword");
+    }
     eel.input(keyword, noOfTweet, select);
-    // edit(select);
     location.reload();
 }
 
@@ -27,15 +43,4 @@ function updateImg() {
     document.getElementById("img").src = newUrl;
     setTimeout(update, 1000);
 }
-
-// function edit(select)
-// {   
-//     var inputs = document.myform;
-//     inputs[4] = "./result/wc-all.png";
-//     inputs[1] = "./result/wc-pos.png";
-//     inputs[3] = "./result/wc-neu.png";
-//     inputs[2] = "./result/wc-neg.png";
-
-//     edit_save.src = inputs[select];                              
-// }
 
