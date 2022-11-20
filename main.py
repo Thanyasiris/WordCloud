@@ -1,5 +1,7 @@
 import eel
 import sentiment 
+import nltk
+nltk.download('vader_lexicon')
 #from sentiment import inputkeyword
 # name of folder where the html, css, js, image files are located
 eel.init('templates')

@@ -25,17 +25,18 @@ from pymongo import MongoClient
 # nltk.download('vader_lexicon')
 
 #establing connection
-try:
-    connect = MongoClient()
-    print("Connected successfully!!!")
-except:
-    print("Could not connect to MongoDB")
+
+# try:
+#     connect = MongoClient()
+#     print("Connected successfully!!!")
+# except:
+#     print("Could not connect to MongoDB")
 
 # connecting or switching to the database
-db = connect.wordCloud
+#db = connect.wordCloud
 
 # creating or switching to demoCollection
-collection = db.wordCloudCollection
+#collection = db.wordCloudCollection
 
 # import access Twitter API from .env
 load_dotenv()
@@ -103,15 +104,15 @@ def inputkeyword(keyword, noOfTweet, select) :
    print(tweet._json)
 
    #query previous data
-   exist_data = collection.find()
+   # exist_data = collection.find()
 
-   #delete previous data in the storage 
-   if exist_data != None :
-      print("delete prvious data successfull")
-      collection.delete_many({})
+   # #delete previous data in the storage 
+   # if exist_data != None :
+   #    print("delete prvious data successfull")
+   #    collection.delete_many({})
    
    # Inserting data to local storage one by one
-   collection.insert_one(tweet._json)
+   #collection.insert_one(tweet._json)
 
    #Number of Tweets (Total, Positive, Negative, Neutral)
    tweet_list = pd.DataFrame(tweet_list)
