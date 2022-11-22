@@ -25,17 +25,18 @@ from pymongo import MongoClient
 # nltk.download('vader_lexicon')
 
 #establing connection
-try:
-    connect = MongoClient()
-    print("Connected successfully!!!")
-except:
-    print("Could not connect to MongoDB")
+
+# try:
+#     connect = MongoClient()
+#     print("Connected successfully!!!")
+# except:
+#     print("Could not connect to MongoDB")
 
 # connecting or switching to the database
-db = connect.wordCloud
+#db = connect.wordCloud
 
 # creating or switching to demoCollection
-collection = db.wordCloudCollection
+#collection = db.wordCloudCollection
 
 # import access Twitter API from .env
 load_dotenv()
@@ -72,9 +73,10 @@ def inputkeyword(keyword, noOfTweet, select) :
 
    #for loop to query data 
    for tweet in tweets:
-      #print(tweet.text)
+      print(tweet.text)
       tweet_list.append(tweet.text)
       analysis = TextBlob(tweet.text)
+      
       score = SentimentIntensityAnalyzer().polarity_scores(tweet.text)
       neg = score['neg']
       neu = score['neu']
@@ -103,15 +105,15 @@ def inputkeyword(keyword, noOfTweet, select) :
    print(tweet._json)
 
    #query previous data
-   exist_data = collection.find()
+   # exist_data = collection.find()
 
-   #delete previous data in the storage 
-   if exist_data != None :
-      print("delete prvious data successfull")
-      collection.delete_many({})
+   # #delete previous data in the storage 
+   # if exist_data != None :
+   #    print("delete prvious data successfull")
+   #    collection.delete_many({})
    
    # Inserting data to local storage one by one
-   collection.insert_one(tweet._json)
+   #collection.insert_one(tweet._json)
 
    #Number of Tweets (Total, Positive, Negative, Neutral)
    tweet_list = pd.DataFrame(tweet_list)
@@ -176,8 +178,8 @@ def inputkeyword(keyword, noOfTweet, select) :
       wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
       wc.generate(str(text))
       wc.to_file("templates/result/wc-all.png")
+      wc.to_file("templates/result/wc.png")
       print("Word Cloud Saved Successfully")
-      #path="templates/result/wc-all.png"
 
    #Function to Create Wordcloud for all Positive tweet
    def create_wordcloud_pos(text):
@@ -186,8 +188,8 @@ def inputkeyword(keyword, noOfTweet, select) :
       wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
       wc.generate(str(text))
       wc.to_file("templates/result/wc-pos.png")
+      wc.to_file("templates/result/wc.png")
       print("Word Cloud Saved Successfully")
-      #path="templates/result/wc-pos.png"
 
    #Function to Create Wordcloud for all Negative tweet
    def create_wordcloud_neg(text):
@@ -196,8 +198,8 @@ def inputkeyword(keyword, noOfTweet, select) :
       wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
       wc.generate(str(text))
       wc.to_file("templates/result/wc-neg.png")
+      wc.to_file("templates/result/wc.png")
       print("Word Cloud Saved Successfully")
-      #path="templates/result/wc-neg.png"
 
     #Function to Create Wordcloud for all Neutual tweet
    def create_wordcloud_neu(text):
@@ -206,8 +208,8 @@ def inputkeyword(keyword, noOfTweet, select) :
       wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
       wc.generate(str(text))
       wc.to_file("templates/result/wc-neu.png")
+      wc.to_file("templates/result/wc.png")
       print("Word Cloud Saved Successfully")
-      #path="templates/result/wc-neu.png"
 
    #Creating wordcloud
 
@@ -233,8 +235,4 @@ def inputkeyword(keyword, noOfTweet, select) :
    round(pd.DataFrame(tw_list.groupby("sentiment").text_len.mean()),2)
    return 
 
-#input from user 
-keyword = input("Please enter keyword or hashtag to search: ")
-noOfTweet = int(input ("Please enter how many tweets to analyze: "))
-select = int(input("Please enter 1 Positive | 2 Negative | 3 Neutral | 4 All : "))
-inputkeyword(keyword, noOfTweet, select) 
+

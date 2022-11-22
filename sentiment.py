@@ -26,17 +26,17 @@ from pymongo import MongoClient
 
 #establing connection
 
-# try:
-#     connect = MongoClient()
-#     print("Connected successfully!!!")
-# except:
-#     print("Could not connect to MongoDB")
+try:
+   connect = MongoClient()
+   print("Connected successfully!!!")
+except:
+   print("Could not connect to MongoDB")
 
-# connecting or switching to the database
-#db = connect.wordCloud
+#connecting or switching to the database
+db = connect.wordCloud
 
-# creating or switching to demoCollection
-#collection = db.wordCloudCollection
+#creating or switching to demoCollection
+collection = db.wordCloudCollection
 
 # import access Twitter API from .env
 load_dotenv()
@@ -92,15 +92,6 @@ def inputkeyword(keyword, noOfTweet, select) :
       elif pos == neg:
          neutral_list.append(tweet.text)
          neutral += 1
-
-   #out of for loop : convert decimal into percentage
-   positive = percentage(positive, noOfTweet)
-   negative = percentage(negative, noOfTweet)
-   neutral = percentage(neutral, noOfTweet)
-   polarity = percentage(polarity, noOfTweet)
-   positive = format(positive, '.1f')
-   negative = format(negative, '.1f')
-   neutral = format(neutral, '.1f')
    print(tweet._json)
 
    #query previous data
@@ -135,6 +126,19 @@ def inputkeyword(keyword, noOfTweet, select) :
    tw_list["text"] = tw_list.text.map(remove_rt).map(rt)
    tw_list["text"] = tw_list.text.str.lower()
    tw_list.head(10)
+
+   #get data to mongoDb
+   collection.insert_one(tw_list)
+
+   #create function to create wordcloud
+   def create_wordcloud(text):
+      mask = np.array(Image.open("mask/bird.png"))
+      stopwords = set(STOPWORDS)
+      wc = WordCloud(background_color= "white",mask = mask,max_words=3000,stopwords=stopwords,repeat=True)
+      wc.generate(str(text))
+      wc.to_file("templates/result/wc-neg.png")
+      wc.to_file("templates/result/wc.png")
+      print("Word Cloud Saved Successfully")
 
    #Calculating Negative, Positive, Neutral and Compound values
    tw_list[['polarity', 'subjectivity']] = tw_list['text'].apply(lambda Text: pd.Series(TextBlob(Text).sentiment))
@@ -210,8 +214,6 @@ def inputkeyword(keyword, noOfTweet, select) :
       wc.to_file("templates/result/wc.png")
       print("Word Cloud Saved Successfully")
 
-   #Creating wordcloud
-
    #Creating wordcloud for positive sentiment
    if select == 1:
       create_wordcloud_pos(tw_list_positive["text"].values)
@@ -233,10 +235,4 @@ def inputkeyword(keyword, noOfTweet, select) :
    tw_list['text_word_count'] = tw_list['text'].apply(lambda x: len(str(x).split()))
    round(pd.DataFrame(tw_list.groupby("sentiment").text_len.mean()),2)
    return 
-
-#input from user 
-# keyword = input("Please enter keyword or hashtag to search: ")
-# noOfTweet = int(input ("Please enter how many tweets to analyze: "))
-# select = int(input("Please enter 1 Positive | 2 Negative | 3 Neutral | 4 All : "))
-# inputkeyword(keyword, noOfTweet, select) 
 
