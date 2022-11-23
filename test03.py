@@ -11,7 +11,6 @@ import nltk
 import pycountry
 import re
 import string
-import json
 from wordcloud import WordCloud, STOPWORDS
 from PIL import Image
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
@@ -70,11 +69,15 @@ def inputkeyword(keyword, noOfTweet, select) :
    neutral_list = []
    negative_list = []
    positive_list = []
-
+   all_tweet_list = []
    #for loop to query data 
+   collection.delete_many({})
    for tweet in tweets:
-      #print(tweet.text)
+      #append to array      
       tweet_list.append(tweet.text)
+      #insert into mongoDB
+      collection.insert_one(tweet._json)
+      #analysis   
       analysis = TextBlob(tweet.text)
       score = SentimentIntensityAnalyzer().polarity_scores(tweet.text)
       neg = score['neg']
@@ -92,21 +95,19 @@ def inputkeyword(keyword, noOfTweet, select) :
       elif pos == neg:
          neutral_list.append(tweet.text)
          neutral += 1
-   """
-   #query previous data
-   exist_data = collection.find_one()
 
-   #delete previous data in the storage 
-   if exist_data != None :
-      print("delete prvious data successfull")
-      collection.delete_many({})
+   #convert dict to list
+   prefixes = ['RT']
+   for document in collection.find():
+      document = document["text"]
+      res = list(document.split(" "))
+      for word in res:
+         if word in prefixes:
+            res.remove(word)
+      print (res)
+      all_tweet_list += res
+   print ("all_tweet_list ", all_tweet_list)
    
-   # Inserting data to local storage one by one
-   collection.insert_one(tweet._json)
-   current_data  = collection.find_one()
-   print(current_data)
-   """
-
    #Number of Tweets (Total, Positive, Negative, Neutral)
    tweet_list = pd.DataFrame(tweet_list)
    neutral_list = pd.DataFrame(neutral_list)
@@ -116,18 +117,18 @@ def inputkeyword(keyword, noOfTweet, select) :
    print("positive number:",len(positive_list))
    print("negative number: ", len(negative_list))
    print("neutral number: ",len(neutral_list))
-
+   
    #Creating new dataframe and new features
-   tw_list = pd.DataFrame(tweet_list)
+   #tw_list = pd.DataFrame.from_dict(data, orient="index")
+   tw_list = pd.DataFrame(all_tweet_list)
    tw_list["text"] = tw_list[0]
-   # print(tw_list)
+   print(tw_list["text"])
 
    #Removing RT, Punctuation etc
    remove_rt = lambda x: re.sub('RT @\w+: '," ",x)
    rt = lambda x: re.sub("(@[A-Za-z0–9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)"," ",x)
    tw_list["text"] = tw_list.text.map(remove_rt).map(rt)
    tw_list["text"] = tw_list.text.str.lower()
-   tw_list.head(10)
 
    #Calculating Negative, Positive, Neutral and Compound values
    tw_list[['polarity', 'subjectivity']] = tw_list['text'].apply(lambda Text: pd.Series(TextBlob(Text).sentiment))
@@ -147,26 +148,7 @@ def inputkeyword(keyword, noOfTweet, select) :
       tw_list.loc[index, 'neu'] = neu
       tw_list.loc[index, 'pos'] = pos
       tw_list.loc[index, 'compound'] = comp
-   tw_list.head(10)
 
-   print(tw_list["text"])
-   """
-   #query previous data
-   exist_data = collection.find_one()
-   print(exist_data)
-
-   #delete previous data in the storage 
-   if exist_data != None :
-      print("delete prvious data successfull")
-      collection.delete_many({})
-   
-   # Inserting data to local storage one by one
-   collection.insert_many(tw_list.all)
-
-   #check insert correct
-   current_data  = collection.find_one()
-   print(current_data)
-   """
    #Creating new data frames for all sentiments (positive, negative and neutral)
    tw_list_negative = tw_list[tw_list["sentiment"]=="negative"]
    tw_list_positive = tw_list[tw_list["sentiment"]=="positive"]

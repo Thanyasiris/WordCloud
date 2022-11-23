@@ -19,23 +19,9 @@ from nltk.stem import SnowballStemmer
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from sklearn.feature_extraction.text import CountVectorizer
 from dotenv import load_dotenv
-from pymongo import MongoClient
 
 # import nltk
 # nltk.download('vader_lexicon')
-
-#establing connection
-try:
-    connect = MongoClient()
-    print("Connected successfully!!!")
-except:
-    print("Could not connect to MongoDB")
-
-# connecting or switching to the database
-db = connect.wordCloud
-
-# creating or switching to demoCollection
-collection = db.wordCloudCollection
 
 # import access Twitter API from .env
 load_dotenv()
@@ -92,27 +78,6 @@ def inputkeyword(keyword, noOfTweet, select) :
          neutral_list.append(tweet.text)
          neutral += 1
 
-   #out of for loop : convert decimal into percentage
-   positive = percentage(positive, noOfTweet)
-   negative = percentage(negative, noOfTweet)
-   neutral = percentage(neutral, noOfTweet)
-   polarity = percentage(polarity, noOfTweet)
-   positive = format(positive, '.1f')
-   negative = format(negative, '.1f')
-   neutral = format(neutral, '.1f')
-   print(tweet._json)
-
-   #query previous data
-   exist_data = collection.find()
-
-   #delete previous data in the storage 
-   if exist_data != None :
-      print("delete prvious data successfull")
-      collection.delete_many({})
-   
-   # Inserting data to local storage one by one
-   collection.insert_one(tweet._json)
-
    #Number of Tweets (Total, Positive, Negative, Neutral)
    tweet_list = pd.DataFrame(tweet_list)
    neutral_list = pd.DataFrame(neutral_list)
@@ -133,7 +98,6 @@ def inputkeyword(keyword, noOfTweet, select) :
    rt = lambda x: re.sub("(@[A-Za-z0–9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)"," ",x)
    tw_list["text"] = tw_list.text.map(remove_rt).map(rt)
    tw_list["text"] = tw_list.text.str.lower()
-   tw_list.head(10)
 
    #Calculating Negative, Positive, Neutral and Compound values
    tw_list[['polarity', 'subjectivity']] = tw_list['text'].apply(lambda Text: pd.Series(TextBlob(Text).sentiment))
@@ -153,21 +117,11 @@ def inputkeyword(keyword, noOfTweet, select) :
       tw_list.loc[index, 'neu'] = neu
       tw_list.loc[index, 'pos'] = pos
       tw_list.loc[index, 'compound'] = comp
-   tw_list.head(10)
 
    #Creating new data frames for all sentiments (positive, negative and neutral)
    tw_list_negative = tw_list[tw_list["sentiment"]=="negative"]
    tw_list_positive = tw_list[tw_list["sentiment"]=="positive"]
    tw_list_neutral = tw_list[tw_list["sentiment"]=="neutral"]
-
-   #count value 
-   def count_values_in_column(data,feature):
-      total=data.loc[:,feature].value_counts(dropna=False)
-      percentage=round(data.loc[:,feature].value_counts(dropna=False,normalize=True)*100,2)
-      return pd.concat([total,percentage],axis=1,keys=['Total','Percentage'])
-
-   #Count_values for sentiment
-   count_values_in_column(tw_list,"sentiment")
 
    #Function to Create Wordcloud for all tweet
    def create_wordcloud(text):
@@ -226,11 +180,6 @@ def inputkeyword(keyword, noOfTweet, select) :
    #Creating wordcloud for all tweets
    elif select == 4:
       create_wordcloud(tw_list["text"].values)
-
-   #Calculating tweet’s lenght and word count
-   tw_list['text_len'] = tw_list['text'].astype(str).apply(len)
-   tw_list['text_word_count'] = tw_list['text'].apply(lambda x: len(str(x).split()))
-   round(pd.DataFrame(tw_list.groupby("sentiment").text_len.mean()),2)
    return 
 
 #input from user 
