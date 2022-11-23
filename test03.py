@@ -101,12 +101,14 @@ def inputkeyword(keyword, noOfTweet, select) :
    for document in collection.find():
       document = document["text"]
       res = list(document.split(" "))
+      all_tweet_list += res
+   print ("all_tweet_list ", all_tweet_list)
+   """
       for word in res:
          if word in prefixes:
             res.remove(word)
       print (res)
-      all_tweet_list += res
-   print ("all_tweet_list ", all_tweet_list)
+      """
    
    #Number of Tweets (Total, Positive, Negative, Neutral)
    tweet_list = pd.DataFrame(tweet_list)
